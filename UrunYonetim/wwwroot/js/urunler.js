@@ -70,4 +70,21 @@ $(document).ready(function () {
             type: 'POST'
         });
     });
+    // Sayfadan ayrılma veya sayfa kapanma olaylarını yakala
+    $(window).on('beforeunload', function () {
+        cancelRequest = true;
+
+        // AJAX isteğini iptal et
+        if (ajaxRequest) {
+            ajaxRequest.abort();
+        }
+
+        // Sunucu tarafına iptal sinyali gönder
+        $.ajax({
+            url: '/Urunler/CancelRequest',
+            type: 'POST'
+        });
+
+        $("#statusMessage").text("Sayfadan ayrılma sırasında işlem iptal edildi.");
+    });
 });
