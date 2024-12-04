@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Ürün Yönetimi";
+}
+
+<div>
+    <button id="urunleriListeleBtn" class="btn btn-primary">Ürünleri Listele</button>
+    <button id="iptalBtn" class="btn btn-danger" style="display: none;">İptal Et</button>
+</div>
+
+<div id="urunListesi" class="mt-3"></div>
+<div id="statusMessage" class="alert alert-info mt-2" style="display: none;"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="/js/urunler.js"></script>
