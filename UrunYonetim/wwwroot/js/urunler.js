@@ -5,14 +5,12 @@ $(document).ready(function () {
         cancelRequest = false;
         startTime = new Date();
 
-        // Buton durumlarını güncelle
+      
         $("#urunleriListeleBtn").prop("disabled", true);
         $("#iptalBtn").show();
         $("#statusMessage").text("Listeleme işlemi başladı...");
-
-        // AJAX isteği
         ajaxRequest = $.ajax({
-            url: '/Urunler/UrunListele', // Razor yerine doğrudan URL
+            url: '/Urunler/UrunListele',
             type: 'POST',
             beforeSend: function () {
                 if (cancelRequest) {
@@ -52,34 +50,30 @@ $(document).ready(function () {
     $("#iptalBtn").click(function () {
         cancelRequest = true;
 
-        // AJAX isteğini iptal et
         if (ajaxRequest) {
             ajaxRequest.abort();
         }
 
-        $("#urunListesi").append("<p>İşlem iptal edildi.</p>");
+       $("#urunListesi").append("<p>İşlem iptal edildi.</p>");
         var endTime = new Date();
         var duration = (endTime - startTime) / 1000;
         $("#statusMessage").text("İşlem iptal edildi. Geçen süre: " + duration + " saniye.");
         $("#urunleriListeleBtn").prop("disabled", false);
         $("#iptalBtn").hide();
 
-        // Sunucu tarafına iptal sinyali gönder
         $.ajax({
             url: '/Urunler/CancelRequest',
             type: 'POST'
         });
     });
-    // Sayfadan ayrılma veya sayfa kapanma olaylarını yakala
+  
     $(window).on('beforeunload', function () {
         cancelRequest = true;
 
-        // AJAX isteğini iptal et
         if (ajaxRequest) {
             ajaxRequest.abort();
         }
 
-        // Sunucu tarafına iptal sinyali gönder
         $.ajax({
             url: '/Urunler/CancelRequest',
             type: 'POST'

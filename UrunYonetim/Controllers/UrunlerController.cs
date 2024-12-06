@@ -61,44 +61,42 @@ public class UrunlerController : Controller
         _context = context;
     }
 
-    // Ana sayfa (Index) 
     public async Task<IActionResult> Index()
     {
         var urunler = await _context.Urunler.ToListAsync();
         return View(urunler);
     }
 
-    // Ürün Listeleme İşlemi
     [HttpPost]
     public async Task<IActionResult> UrunListele()
     {
         var cancellationToken = _cancellationTokenSource.Token;
         try
         {
-            Console.WriteLine("UrunListele işlemi başladı."); // İşlem başladığında log
+            Console.WriteLine("UrunListele işlemi başladı."); 
             for (int i = 0; i < 100; i++)
             {
                 await Task.Delay(100, cancellationToken);
             }
 
             var urunler = await _context.Urunler.ToListAsync(cancellationToken);
-            Console.WriteLine("UrunListele işlemi tamamlandı."); // İşlem tamamlandığında log
+            Console.WriteLine("UrunListele işlemi tamamlandı."); 
             return Json(urunler);
         }
         catch (TaskCanceledException)
         {
-            Console.WriteLine("UrunListele işlemi iptal edildi."); // İptal olduğunda log
+            Console.WriteLine("UrunListele işlemi iptal edildi."); 
             return Json(new { message = "İşlem iptal edildi." });
         }
 
     }
 
-    // İptal İsteği Endpoint'i
+ 
     [HttpPost]
     public IActionResult CancelRequest()
     {
-        _cancellationTokenSource.Cancel();  // İptal kaynağını tetikle
-        _cancellationTokenSource = new CancellationTokenSource(); // Yeniden kullanmak için yenisini oluştur
+        _cancellationTokenSource.Cancel();  
+        _cancellationTokenSource = new CancellationTokenSource(); 
         return Ok();
     }
 }
